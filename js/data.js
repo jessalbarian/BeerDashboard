@@ -81,6 +81,7 @@ google.charts.load('current', {'packages': ['corechart']});
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
+window.setTimeout(drawChart, 1000);
 
 function drawChart() {
     // Create the data table.
