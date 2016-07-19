@@ -1,0 +1,29 @@
+{
+  "name": "beerdashboard",
+  "version": "1.0.0",
+  "description": "beer dashboard",
+  "main": "index.html",
+  "scripts": {
+    "test": "ls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessalbarian/BeerDashboard.git"
+  },
+  "author": "jessie albarian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jessalbarian/BeerDashboard/issues"
+  },
+  "homepage": "https://github.com/jessalbarian/BeerDashboard#readme",
+  "devDependencies" : {
+        "grunt" :                       "~1.0.1",
+        "grunt-contrib-cssmin":         "*",
+        "grunt-contrib-sass":           "*",
+        "grunt-contrib-uglify":         "*",
+        "grunt-contrib-watch":          "*",
+        "grunt-cssc":                   "*",
+        "grunt-htmlhint":               "*",
+        "matchdep":                     "*"
+    }
+}
