@@ -6767,3 +6767,7 @@ button.close {
 .text-green {
   color: #009933;
 }
+
+.large {
+  font-size: 3em;
+}
