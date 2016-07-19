@@ -9,11 +9,12 @@
 var total_beers = document.getElementById('total_beers');
 var ipa = document.getElementById('ipa');
 var porter = document.getElementById('porter');
+
 var beersPerDayS1Arr = [];
 var datesArrayS1 = [];
 var beersPerDayS2Arr = [];
 var datesArrayS2 = [];
-var sensor1Data = [];
+
 var numberOfIPAsS1 = 0;
 var numberOfportersS2 = 0;
 
@@ -33,47 +34,60 @@ var ref = firebase.database().ref('beers/');
 
 
 // Get total beers data
+
 ref.on("value", function(snapshot) {
     var beers = snapshot.val();
+    var ipas = 0;
+    var porters = 0;
+    for (var key in beers) {
+        // console.log(key);
+        if (key == 'Sensor1'){
+            for(var key2 in beers[key]){
+                for(var key3 in beers[key][key2]){
+                    if(key3 == 'beersPerDay'){
+                        ipas = ipas + beers[key][key2][key3]
+
+                    }
+
+                }
+
+            }
+        }
+        if (key == 'Sensor2'){
+            for(var key4 in beers[key]){
+                for(var key5 in beers[key][key4]){
+                    if(key5 == 'beersPerDay'){
+                        porters = porters + beers[key][key4][key5]
+
+                    }
+
+                }
+
+            }
+        }
+    }
+    porter.innerHTML = porters;
+    ipa.innerHTML = ipas;
     total_beers.innerHTML = beers.total_beers;
-}, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-    total_beers.innerHTML = "Calculating";
-});
-
-
-// Get number of IPAs
-ref.on("value", function(snapshot) {
-    var beers = snapshot.val();
-    ipa.innerHTML = beers.total_beers - numberOfportersS2;
-    porter.innerHTML = beers.total_beers - numberOfIPAsS1;
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
     ipa.innerHTML = "Calculating";
     porter.innerHTML = "Calculating";
+    total_beers.innerHTML = "Calculating";
 });
+
+
 
 
 // Sensor 1 Data: India Pale Ale
-ref1.on("child_added", function(snapshot, prevChildKey) {
-    var newPostS1 = snapshot.val();
-    var beersPerDayS1 = newPostS1.beersPerDay;
-    var datesS1 = newPostS1.datetime;
-
-    beersPerDayS1Arr.push(beersPerDayS1);
-    datesArrayS1.push(datesS1);
-});
-
-
-// Sensor 2 Data: Chocolate Porter
-ref2.on("child_added", function(snapshot, prevChildKey) {
-    var newPosts2 = snapshot.val();
-    var beersPerDayS2 = newPosts2.beersPerDay;
-    var datesS2 = newPosts2.datetime;
-
-    beersPerDayS2Arr.push(beersPerDayS2);
-    datesArrayS2.push(datesS2);
-});
+// ref1.on("child_added", function(snapshot, prevChildKey) {
+//     var newPostS1 = snapshot.val();
+//     var beersPerDayS1 = newPostS1.beersPerDay;
+//     var datesS1 = newPostS1.datetime;
+//
+//     beersPerDayS1Arr.push(beersPerDayS1);
+//     datesArrayS1.push(datesS1);
+// });
 
 
 
