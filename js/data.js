@@ -93,7 +93,7 @@ function drawChart() {
         date = datesArray[i];
 
         var yearValue = date.substring(0, 4);
-        var monthValue = date.substring(5, 7);
+        var monthValue = (date.substring(5, 7))-1;
         var dayValue = date.substring(8, 10);
         console.log(dayValue);
         if (datesArray[i] == datesArray[i - 1]) {
