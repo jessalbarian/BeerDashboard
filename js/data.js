@@ -64,8 +64,6 @@ ref.on("value", function (snapshot) {
             }
         }
     }
-    console.log(numberOfBeersArray);
-    console.log(datesArray);
     porter.innerHTML = porters;
     ipa.innerHTML = ipas;
     total_beers.innerHTML = beers.total_beers;
@@ -93,9 +91,9 @@ function drawChart() {
     for (var i = 0; i < datesArray.length; i++) {
         var date = datesArray[i];
         var yearValue = date.substring(0, 4);
-        console.log(dayValue);
         var monthValue = date.substring(5, 7);
         var dayValue = date.substring(8, 10);
+        console.log(dayValue);
         var num = numberOfBeersArray[i];
         data.addRows([
             [new Date(yearValue, monthValue, dayValue), num]
