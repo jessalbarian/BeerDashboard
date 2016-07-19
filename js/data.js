@@ -4,7 +4,6 @@
 
 
 
-
 // Shortcuts to DOM elements
 var total_beers = document.getElementById('total_beers');
 var ipa = document.getElementById('ipa');
@@ -80,7 +79,7 @@ google.charts.load('current', {'packages': ['corechart']});
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
-setTimeout(drawChart, 3000);
+setTimeout(drawChart(), 1000);
 
 function drawChart() {
     // Create the data table.
