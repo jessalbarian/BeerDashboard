@@ -65,6 +65,7 @@ ref.on("value", function (snapshot) {
     porter.innerHTML = porters;
     ipa.innerHTML = ipas;
     total_beers.innerHTML = beers.total_beers;
+    setTimeout(drawChart, 1000);
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
     ipa.innerHTML = "Calculating";
@@ -79,7 +80,7 @@ google.charts.load('current', {'packages': ['corechart']});
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
-setTimeout(drawChart(), 1000);
+
 
 function drawChart() {
     // Create the data table.
@@ -108,23 +109,22 @@ function drawChart() {
 
     // Set chart options
     var options = {
-        'title': 'Number of Beers Poured Per Day',
-        'width': 400,
-        'height': 300,
+        'width': 500,
+        'height': 400,
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
-        textStyle: {color: '#FFF'},
+        textStyle: {color: '#000'},
         titleTextStyle: {
             color: '#000'
         },
         vAxis: {
             textStyle: {
-                color: '#FFF'
+                color: '#000'
             }
         },
         hAxis: {
             textStyle: {
-                color: '#FFF'
+                color: '#000'
             }
         }
     };
