@@ -13,7 +13,6 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -63,13 +62,24 @@
     <!-- Beer Panels -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 text-center">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3 text-center">
                 <div class="panel panel-default center-block">
                     <div class="panel-heading">
                         <h3 class="panel-title large">Total Beers</h3>
                     </div>
                     <div class="panel-body">
                         <h1 id="total_beers" class="text-green large"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-center">
+                <div class="panel panel-default center-block">
+                    <div class="panel-heading">
+                        <h3 class="panel-title large">Hours of Pouring</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h1 id="total_hours" class="text-green large"></h1>
                     </div>
                 </div>
             </div>
@@ -80,12 +90,12 @@
             <div class="col-lg-3 text-center">
                 <div class="panel panel-default center-block">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Total IPAs Poured</h3>
+                        <h3 class="panel-title">Total <span id="beer_name1"></span> Poured</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h1 id="ipa" class="text-green"></h1>
+                                <h1 id="tap1Number" class="text-green"></h1>
 
                             </div>
                             <div class="col-lg-6">
@@ -98,12 +108,12 @@
             <div class="col-lg-3 text-center">
                 <div class="panel panel-default center-block">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Total Porters Poured</h3>
+                        <h3 class="panel-title">Total <span id="beer_name2"></span> Poured</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h1 id ="porter" class="text-green"></h1>
+                                <h1 id ="tap2Number" class="text-green"></h1>
                             </div>
                             <div class="col-lg-6">
                                 <img src="img/porter.png" width="70"/>
@@ -118,7 +128,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 center-block">
+            <div class="col-lg-6 center-block">
                 <div class="panel panel-default center-block" style="width: 500px;" >
                     <div class="panel-heading">
                         <h3 class="panel-title">Number of Beers Per Day</h3>
@@ -129,7 +139,19 @@
                 </div>
 
             </div>
+            <div class="col-lg-6 center-block">
+                <div class="panel panel-default center-block" style="width: 500px;" >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Beers at Made</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="piechart"></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
     </div>
 
 
