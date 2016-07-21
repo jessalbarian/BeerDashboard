@@ -10,6 +10,9 @@ var beer_name1 = document.getElementById('beer_name1');
 var beer_name2 = document.getElementById('beer_name2');
 var tap1Number = document.getElementById('tap1Number');
 var tap2Number = document.getElementById('tap2Number');
+var total_hours = document.getElementById('total_hours');
+var total_minutes = document.getElementById('total_minutes');
+var total_seconds = document.getElementById('total_seconds');
 
 var tap1Num = 0;
 var tap2Num = 0;
@@ -17,13 +20,10 @@ var tap2Num = 0;
 var beer_name_text1 = ""
 var beer_name_text2 = ""
 
-var starttimeArray1 = [];
 var hoursArray = [];
-
 var start_time = "";
-var end_time1 = "";
-var end_time2 = "";
-var tapTotalHours = 0;
+
+
 
 // Initialize Firebase
 var config = {
@@ -160,7 +160,7 @@ var getSeconds = function () {
 
     var tapTotalMinutes = tap1Minutes + tap2Minutes;
     var tapTotalSeconds = tap1Seconds + tap2Seconds;
-    tapTotalHours = (tap1Seconds/3600) + (tap2Seconds/3600);
+    var tapTotalHours = (tap1Seconds/3600) + (tap2Seconds/3600);
     total_hours.innerHTML = tapTotalHours.toFixed(1);
     total_minutes.innerHTML = tapTotalMinutes.toFixed(1);
     total_seconds.innerHTML = tapTotalSeconds.toFixed(0);
