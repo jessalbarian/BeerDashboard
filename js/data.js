@@ -155,8 +155,15 @@ refTap2.on("value", function (snapshot) {
 var getSeconds = function () {
     var tap1Seconds = (starttimeArray1.length)*6;
     var tap2Seconds = (starttimeArray2.length)*6;
+    var tap1Minutes = (starttimeArray1.length)/60;
+    var tap2Minutes = (starttimeArray2.length)/60;
+
+    var tapTotalMinutes = tap1Minutes + tap2Minutes;
+    var tapTotalSeconds = tap1Seconds + tap2Seconds;
     tapTotalHours = (tap1Seconds/3600) + (tap2Seconds/3600);
-    total_hours.innerHTML = tapTotalHours.toFixed(2);
+    total_hours.innerHTML = tapTotalHours.toFixed(1);
+    total_minutes.innerHTML = tapTotalMinutes.toFixed(1);
+    total_seconds.innerHTML = tapTotalSeconds.toFixed(0);
 }
 
 
