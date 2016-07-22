@@ -69,7 +69,6 @@ refTap1.on("value", function (snapshot) {
     }
     // Google Charts call
     setTimeout(drawPieChart, 1000);
-    // setTimeout(drawChart, 1000);
     start_time = starttimeArray1[0];
 
     getSeconds();
@@ -121,11 +120,12 @@ refTap2.on("value", function (snapshot) {
     }
     // Google Charts call
     setTimeout(drawPieChart, 1000);
-    // setTimeout(drawChart, 1000);
+    setTimeout(drawChart, 1000);
 
 
 
     getSeconds();
+    parseTimes();
     //---------------------
     // Set total # of beers
     //---------------------
@@ -171,12 +171,38 @@ var getSeconds = function () {
     total_seconds.innerHTML = tapTotalSeconds.toFixed(0);
 };
 
+//------------
+// Parse Times
+//------------
+var gethours = [];
+var hoursCounter = []; // create an empty array
+
 var parseTimes = function(){
-    for (var each in starttimeArray1){
-        console.log(each);
+    for (var each in starttimeArray1) {
+        var hour = new Date(starttimeArray1[each]).getHours();
+        gethours.push(hour);
+    }
+
+    gethours.sort();
+    var current = null;
+    var cnt = 0;
+    for (var i = 0; i < gethours.length; i++) {
+        if (gethours[i] != current) {
+            if (cnt > 0) {
+                console.log(current + ' comes ' +cnt + ' times');
+                hoursCounter.push({
+                    current:   current,
+                    count: cnt
+                });
+            }
+            current = gethours[i];
+            cnt = 1;
+        } else {
+            cnt++;
+        }
     }
 };
-parseTimes();
+
 
 //---------------------------
 // Google Charts
@@ -202,45 +228,28 @@ function drawChart() {
     data.addColumn('string', 'Times');
     data.addColumn('number', 'Beers Per Hour');
 
+    hoursCounter.sort();
 
-    // for (var item in timestampArray1) {
-    //     var times = new Date(timestampArray1[item]);
-    //     hoursArray.push(times.getHours());
-    //     hoursArray.sort();
-    //     for (item in hoursArray) {
-    //
-    //     }
-    // }
-    // for (item2 in timestampArray2) {
-    //     var times2 = new Date(timestampArray2[item2]);
-    //     hoursArray.push(times2.getHours());
-    //     hoursArray.sort();
-    //
-    // }
-
-
-    for (var i = 0; i < hoursArray.length; i++) {
-        times = new Date(hoursArray[i]).getHours();
-        console.log(times);
-        var current = 0;
-        var previous = 0;
-        for (var each in times){
-            current = times[each];
-
-            if (current == previous){
-
-            }
-                previous = current;
+    var date;
+    var num = 0;
+    for (var key in hoursCounter) {
+        // console.log(hoursCounter[key]);
+        for (var current in hoursCounter[key]) {
+            if (current == 'current') {
+                console.log(hoursCounter[key][current]);
+                if (hoursCounter[key][current] >= 12) {
+                    date = hoursCounter[key][current] + ':00 PM';
+                } else {
+                    date = hoursCounter[key][current] + ':00 AM';
+                }
+            } else
+                {
+                    num = hoursCounter[key][current];
+                }
+                data.addRows([
+                    [date, num]
+                ]);
         }
-        num = 10;
-        if (time >= 12) {
-            date = time + ':00 PM'
-        } else {
-            date = time + ':00 AM'
-        }
-        data.addRows([
-            [date, num]
-        ]);
     }
 
 
