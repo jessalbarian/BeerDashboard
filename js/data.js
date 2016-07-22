@@ -23,11 +23,12 @@ var beer_name_text2 = ""
 var start_time = "";
 
 var hoursArray = [];
+var hoursCounter = [];
 var gethours = [];
-var hoursCounter = []; // create an empty array
 var hour = 0;
-
+var hour2 = 0;
 var times;
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDHZV87dHoRq7iYnhfYLIvp9H1Bw2ljro8",
@@ -43,13 +44,14 @@ var refTap2 = firebase.database().ref('tap2/');
 
 var starttimeArray1 = [];
 var stoptimeArray1 = [];
+
 //---------------
 // Get tap 1 data
 //---------------
 refTap1.on("value", function (snapshot) {
     starttimeArray1 = [];
     stoptimeArray1 = [];
-    hour = 0;
+    gethours = [];
     var taps = snapshot.val();
     for (var key in taps) {
         if (key == 'name') {
@@ -75,7 +77,8 @@ refTap1.on("value", function (snapshot) {
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
     start_time = starttimeArray1[0];
-    getSeconds();
+    getTimes();
+    // parseTimes();
     // end_time1 = timestampArray1[timestampArray1.length - 1];
 
     //---------------------
@@ -100,7 +103,7 @@ var stoptimeArray2 = [];
 refTap2.on("value", function (snapshot) {
     starttimeArray2 = [];
     stoptimeArray2 = [];
-
+    gethours = [];
     var taps2 = snapshot.val();
     for (var keys in taps2) {
         if (keys == 'name') {
@@ -127,7 +130,7 @@ refTap2.on("value", function (snapshot) {
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
     parseTimes();
-    getSeconds();
+    getTimes();
     //---------------------
     // Set total # of beers
     //---------------------
@@ -140,9 +143,10 @@ refTap2.on("value", function (snapshot) {
     total_beers.innerHTML = "Calculating";
 });
 
-
-
-var getSeconds = function () {
+//---------------------------------------
+// Get Hours, Minutes, Seconds of pouring
+//---------------------------------------
+var getTimes = function () {
     var tap1Seconds = (starttimeArray1.length)*6;
     var tap2Seconds = (starttimeArray2.length)*6;
     var tap1Minutes = (starttimeArray1.length)/60;
@@ -151,42 +155,64 @@ var getSeconds = function () {
     var tapTotalMinutes = tap1Minutes + tap2Minutes;
     var tapTotalSeconds = tap1Seconds + tap2Seconds;
     var tapTotalHours = (tap1Seconds/3600) + (tap2Seconds/3600);
+
     total_hours.innerHTML = tapTotalHours.toFixed(1);
     total_minutes.innerHTML = tapTotalMinutes.toFixed(1);
     total_seconds.innerHTML = tapTotalSeconds.toFixed(0);
 };
 
-//------------
-// Parse Times
-//------------
 
+
+//--------------------------------------------
+// Parse Times to get number of beers per hour
+//--------------------------------------------
 var parseTimes = function(){
+
+
+    // Add hours from tap 1
     for (var each in starttimeArray1) {
         hour = new Date(starttimeArray1[each]).getHours();
         gethours.push(hour);
     }
-// TODO: Add second starttimearray2 to this
-    gethours.sort();
-    var current = null;
-    var cnt = 0;
-    for (var i = 0; i < gethours.length; i++) {
-        console.log(gethours[i]);
-        if (gethours[i] != current) {
-            if (cnt > 0) {
-                console.log(current + ' comes ' +cnt + ' times');
-                hoursCounter.push({
-                    current:   current,
-                    count: cnt
-                });
-            }
-            current = gethours[i];
-            cnt = 1;
-        } else {
-            cnt++;
-        }
-        hoursCounter.sort()
+
+
+    // Add hours from tap 2
+    for (var each2 in starttimeArray2){
+        hour2 = new Date(starttimeArray2[each2]).getHours();
+        gethours.push(hour2);
     }
 
+    // Sort gethours Array
+    gethours.sort();
+
+    // var counts = {};
+
+    for (var i = 0; i < gethours.length; i++) {
+        hoursCounter[gethours[i]] = (hoursCounter[gethours[i]] + 1) || 1;
+    }
+    // console.log(hoursCounter);
+    // Filter out duplicates and count them
+    // var current = null;
+    // var count = 0;
+    // for (var i = 0; i < gethours.length; i++) {
+    //     if (gethours[i] != current) {
+    //         if (count > 0) {
+    //             console.log(gethours[i] + ' comes ' + count + ' times');
+    //             hoursCounter.push({
+    //                 key: gethours[i],
+    //                 value: count
+    //             });
+    //             console.log("hour: " + gethours[i]);
+    //             console.log("count: " + count);
+    //         }
+    //         current = gethours[i];
+    //         count = 1;
+    //     } else {
+    //         count++;
+    //     }
+    //
+    // }
+    // hoursCounter.sort()
 };
 
 //---------------------------
@@ -214,24 +240,21 @@ function drawChart() {
     var date;
 
     for (var key in hoursCounter) {
+        console.log("key: " +key);
         var num = 0;
-        // console.log(hoursCounter[key]);
-        for (var current in hoursCounter[key]) {
-            if (current == 'current') {
-                console.log(hoursCounter[key][current]);
-                if (hoursCounter[key][current] >= 12) {
-                    date = hoursCounter[key][current] + ':00 PM';
-                } else {
-                    date = hoursCounter[key][current] + ':00 AM';
-                }
-            } else
-                {
-                    num = hoursCounter[key][current];
-                }
-                data.addRows([
-                    [date, num]
-                ]);
+
+
+        if (key >= 12) {
+            date = key + ':00 PM';
+        } else {
+            date = key + ':00 AM';
         }
+        num = hoursCounter[key];
+
+        data.addRows([
+            [date, num]
+        ]);
+
     }
 
 
