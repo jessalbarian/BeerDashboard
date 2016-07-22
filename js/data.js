@@ -52,6 +52,7 @@ refTap1.on("value", function (snapshot) {
     starttimeArray1 = [];
     stoptimeArray1 = [];
     gethours = [];
+    hoursCounter = [];
     var taps = snapshot.val();
     for (var key in taps) {
         if (key == 'name') {
@@ -104,6 +105,7 @@ refTap2.on("value", function (snapshot) {
     starttimeArray2 = [];
     stoptimeArray2 = [];
     gethours = [];
+    hoursCounter = [];
     var taps2 = snapshot.val();
     for (var keys in taps2) {
         if (keys == 'name') {
