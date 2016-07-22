@@ -23,6 +23,10 @@ var beer_name_text2 = ""
 var start_time = "";
 
 var hoursArray = [];
+var gethours = [];
+var hoursCounter = []; // create an empty array
+var hour = 0;
+
 var times;
 // Initialize Firebase
 var config = {
@@ -45,7 +49,7 @@ var stoptimeArray1 = [];
 refTap1.on("value", function (snapshot) {
     starttimeArray1 = [];
     stoptimeArray1 = [];
-
+    hour = 0;
     var taps = snapshot.val();
     for (var key in taps) {
         if (key == 'name') {
@@ -69,10 +73,11 @@ refTap1.on("value", function (snapshot) {
     }
     // Google Charts call
     setTimeout(drawPieChart, 1000);
+    setTimeout(drawChart, 1000);
     start_time = starttimeArray1[0];
-
     getSeconds();
     // end_time1 = timestampArray1[timestampArray1.length - 1];
+
     //---------------------
     // Set total # of beers
     //---------------------
@@ -121,11 +126,8 @@ refTap2.on("value", function (snapshot) {
     // Google Charts call
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
-
-
-
-    getSeconds();
     parseTimes();
+    getSeconds();
     //---------------------
     // Set total # of beers
     //---------------------
@@ -139,24 +141,7 @@ refTap2.on("value", function (snapshot) {
 });
 
 
-// var getHours = function(){
-//     // var start = new Date(start_time);
-//     // var d1 = new Date(end_time1);
-//     // var d2 = new Date(end_time2);
-//     // if (d1 > d2){
-//     //     var final_end_date = d1;
-//     // } else {
-//     //     var final_end_date = d2;
-//     // }
-//     // var hours = Math.abs(final_end_date - start) / 36e5;
-//     // var n = hours.toFixed(2);
-//     // total_hours.innerHTML = n;
-//     // for (each in timestampArray1){
-//     //     var times = new Date(timestampArray1[each]);
-//     //     hoursArray.push(times.getHours());
-//     //     hoursArray.sort();
-//     // }
-// }
+
 var getSeconds = function () {
     var tap1Seconds = (starttimeArray1.length)*6;
     var tap2Seconds = (starttimeArray2.length)*6;
@@ -174,19 +159,18 @@ var getSeconds = function () {
 //------------
 // Parse Times
 //------------
-var gethours = [];
-var hoursCounter = []; // create an empty array
 
 var parseTimes = function(){
     for (var each in starttimeArray1) {
-        var hour = new Date(starttimeArray1[each]).getHours();
+        hour = new Date(starttimeArray1[each]).getHours();
         gethours.push(hour);
     }
-
+// TODO: Add second starttimearray2 to this
     gethours.sort();
     var current = null;
     var cnt = 0;
     for (var i = 0; i < gethours.length; i++) {
+        console.log(gethours[i]);
         if (gethours[i] != current) {
             if (cnt > 0) {
                 console.log(current + ' comes ' +cnt + ' times');
@@ -200,9 +184,10 @@ var parseTimes = function(){
         } else {
             cnt++;
         }
+        hoursCounter.sort()
     }
-};
 
+};
 
 //---------------------------
 // Google Charts
@@ -224,15 +209,12 @@ google.charts.setOnLoadCallback(drawPieChart);
 function drawChart() {
     // Create the data table.
     var data = new google.visualization.DataTable();
-
     data.addColumn('string', 'Times');
     data.addColumn('number', 'Beers Per Hour');
-
-    hoursCounter.sort();
-
     var date;
-    var num = 0;
+
     for (var key in hoursCounter) {
+        var num = 0;
         // console.log(hoursCounter[key]);
         for (var current in hoursCounter[key]) {
             if (current == 'current') {
