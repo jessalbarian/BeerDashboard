@@ -69,7 +69,7 @@ refTap1.on("value", function (snapshot) {
     }
     // Google Charts call
     setTimeout(drawPieChart, 1000);
-    setTimeout(drawChart, 1000);
+    // setTimeout(drawChart, 1000);
     start_time = starttimeArray1[0];
 
     getSeconds();
@@ -123,6 +123,8 @@ refTap2.on("value", function (snapshot) {
     setTimeout(drawPieChart, 1000);
     // setTimeout(drawChart, 1000);
 
+
+
     getSeconds();
     //---------------------
     // Set total # of beers
@@ -167,8 +169,14 @@ var getSeconds = function () {
     total_hours.innerHTML = tapTotalHours.toFixed(1);
     total_minutes.innerHTML = tapTotalMinutes.toFixed(1);
     total_seconds.innerHTML = tapTotalSeconds.toFixed(0);
-}
+};
 
+var parseTimes = function(){
+    for (var each in starttimeArray1){
+        console.log(each);
+    }
+};
+parseTimes();
 
 //---------------------------
 // Google Charts
@@ -179,7 +187,6 @@ var getSeconds = function () {
 google.charts.load('current', {'packages': ['corechart']});
 
 
-// Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawPieChart);
 
@@ -188,82 +195,82 @@ google.charts.setOnLoadCallback(drawPieChart);
 //-------------
 // Create chart
 //-------------
-// function drawChart() {
-//     // Create the data table.
-//     var data = new google.visualization.DataTable();
-//
-//     data.addColumn('string', 'Times');
-//     data.addColumn('number', 'Beers Per Hour');
-//
-//
-//     // for (var item in timestampArray1) {
-//     //     var times = new Date(timestampArray1[item]);
-//     //     hoursArray.push(times.getHours());
-//     //     hoursArray.sort();
-//     //     for (item in hoursArray) {
-//     //
-//     //     }
-//     // }
-//     // for (item2 in timestampArray2) {
-//     //     var times2 = new Date(timestampArray2[item2]);
-//     //     hoursArray.push(times2.getHours());
-//     //     hoursArray.sort();
-//     //
-//     // }
-//
-//
-//     for (var i = 0; i < hoursArray.length; i++) {
-//         times = new Date(hoursArray[i]).getHours();
-//         console.log(times);
-//         var current = 0;
-//         var previous = 0;
-//         for (var each in times){
-//             current = times[each];
-//
-//             if (current == previous){
-//
-//             }
-//                 previous = current;
-//         }
-//         num = 10;
-//         if (time >= 12) {
-//             date = time + ':00 PM'
-//         } else {
-//             date = time + ':00 AM'
-//         }
-//         data.addRows([
-//             [date, num]
-//         ]);
-//     }
-//
-//
-//     // Set chart options
-//     var options = {
-//
-//         legend: {position: 'none'},
-//         backgroundColor: {fill: 'transparent'},
-//         textStyle: {color: '#000'},
-//         titleTextStyle: {
-//             color: '#000'
-//         },
-//         vAxis: {
-//             textStyle: {
-//                 color: '#000'
-//             }
-//         },
-//         hAxis: {
-//             textStyle: {
-//                 color: '#000'
-//             }
-//         }
-//     };
-//
-//
-//     // Instantiate and draw our chart, passing in some options.
-//     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-//     chart.draw(data, options);
-//     // hoursArray = [];
-// }
+function drawChart() {
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+
+    data.addColumn('string', 'Times');
+    data.addColumn('number', 'Beers Per Hour');
+
+
+    // for (var item in timestampArray1) {
+    //     var times = new Date(timestampArray1[item]);
+    //     hoursArray.push(times.getHours());
+    //     hoursArray.sort();
+    //     for (item in hoursArray) {
+    //
+    //     }
+    // }
+    // for (item2 in timestampArray2) {
+    //     var times2 = new Date(timestampArray2[item2]);
+    //     hoursArray.push(times2.getHours());
+    //     hoursArray.sort();
+    //
+    // }
+
+
+    for (var i = 0; i < hoursArray.length; i++) {
+        times = new Date(hoursArray[i]).getHours();
+        console.log(times);
+        var current = 0;
+        var previous = 0;
+        for (var each in times){
+            current = times[each];
+
+            if (current == previous){
+
+            }
+                previous = current;
+        }
+        num = 10;
+        if (time >= 12) {
+            date = time + ':00 PM'
+        } else {
+            date = time + ':00 AM'
+        }
+        data.addRows([
+            [date, num]
+        ]);
+    }
+
+
+    // Set chart options
+    var options = {
+
+        legend: {position: 'none'},
+        backgroundColor: {fill: 'transparent'},
+        textStyle: {color: '#000'},
+        titleTextStyle: {
+            color: '#000'
+        },
+        vAxis: {
+            textStyle: {
+                color: '#000'
+            }
+        },
+        hAxis: {
+            textStyle: {
+                color: '#000'
+            }
+        }
+    };
+
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+    // hoursArray = [];
+}
 
 
 function drawPieChart() {
@@ -274,16 +281,9 @@ function drawPieChart() {
         [beer_name_text2, tap2Num]
     ]);
 
-    var options = {
-        // title: 'Beers at Made'
-    };
-
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-    chart.draw(data, options);
+    chart.draw(data);
 }
-
-
-
 
 
