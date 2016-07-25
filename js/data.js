@@ -85,9 +85,9 @@ refTap1.on("value", function (snapshot) {
         }
     }
     // Google Charts call
-    // setTimeout(drawPieChart, 1000);
-    // setTimeout(drawChart, 1000);
-    // setTimeout(drawCalendarChart, 1000);
+    setTimeout(drawPieChart, 1000);
+    setTimeout(drawChart, 1000);
+    setTimeout(drawCalendarChart, 1000);
     start_time = starttimeArray1[0];
     getTimes();
     // parseTimes();
@@ -117,7 +117,6 @@ refTap2.on("value", function (snapshot) {
     stoptimeArray2 = [];
     gethours = [];
     hoursCounter = [];
-    year = 0;
     getyears = [];
     getmonths = [];
     getdays = [];
@@ -191,13 +190,14 @@ var parseTimes = function(){
     for (var each in starttimeArray1) {
         hour = new Date(starttimeArray1[each]).getHours();
 
-        year = new Date(starttimeArray1[each]).getYear();
+        year = new Date(starttimeArray1[each]).getUTCFullYear()
+        console.log(year);
         if (year == 116){
             year = 2016;
         }
 
         month = new Date(starttimeArray1[each]).getMonth();
-        month = month + 1; // Adding to fix month being off by 1
+        // month = month + 1; // Adding to fix month being off by 1
 
         day = new Date(starttimeArray1[each]).getUTCDate();
 
@@ -218,7 +218,7 @@ var parseTimes = function(){
         }
 
         month = new Date(starttimeArray2[each2]).getMonth();
-        month = month + 1;
+        // month = month + 1;
 
         day = new Date(starttimeArray2[each2]).getUTCDate();
 
@@ -258,34 +258,29 @@ google.charts.setOnLoadCallback(drawCalendarChart);
 function drawChart() {
     // Create the data table.
     var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Times', { role: 'style' });
-    data.addColumn('number', 'Beers Per Hour', { role: 'style' });
+    data.addColumn('string', 'Times');
+    data.addColumn('number', 'Beers Per Hour');
     var date;
 
 
     for (var key in hoursCounter) {
         var num = 0;
 
-
         if (key >= 12) {
-
-                date = key + ':00 PM';
-
+            date = key + ':00 PM';
         } else {
             date = key + ':00 AM';
         }
+
         num = hoursCounter[key];
 
         data.addRows([
-            [date, num, 'color: #66cc33']
+            [date, num]
         ]);
-
+        // 'color: #66cc33'
     }
 
-
-    // Set chart options
     var options = {
-
         legend: {position: 'none'},
         backgroundColor: {fill: 'transparent'},
         textStyle: {color: '#000'},
@@ -301,7 +296,9 @@ function drawChart() {
             textStyle: {
                 color: '#000'
             }
-        }
+        },
+        colors: ['#66cc33']
+        
     };
 
 
