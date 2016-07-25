@@ -25,9 +25,15 @@ var start_time = "";
 var hoursArray = [];
 var hoursCounter = [];
 var gethours = [];
+var getyears = [];
+var getmonths = [];
+var getdays = [];
 var hour = 0;
 var hour2 = 0;
-var times;
+
+var year = 0;
+var month = 0;
+var day = 0;
 
 // Initialize Firebase
 var config = {
@@ -44,7 +50,7 @@ var refTap2 = firebase.database().ref('tap2/');
 
 var starttimeArray1 = [];
 var stoptimeArray1 = [];
-
+var times = [];
 //---------------
 // Get tap 1 data
 //---------------
@@ -52,7 +58,11 @@ refTap1.on("value", function (snapshot) {
     starttimeArray1 = [];
     stoptimeArray1 = [];
     gethours = [];
+    year = 0;
     hoursCounter = [];
+    getyears = [];
+    getmonths = [];
+    getdays = [];
     var taps = snapshot.val();
     for (var key in taps) {
         if (key == 'name') {
@@ -75,8 +85,9 @@ refTap1.on("value", function (snapshot) {
         }
     }
     // Google Charts call
-    setTimeout(drawPieChart, 1000);
-    setTimeout(drawChart, 1000);
+    // setTimeout(drawPieChart, 1000);
+    // setTimeout(drawChart, 1000);
+    // setTimeout(drawCalendarChart, 1000);
     start_time = starttimeArray1[0];
     getTimes();
     // parseTimes();
@@ -106,6 +117,10 @@ refTap2.on("value", function (snapshot) {
     stoptimeArray2 = [];
     gethours = [];
     hoursCounter = [];
+    year = 0;
+    getyears = [];
+    getmonths = [];
+    getdays = [];
     var taps2 = snapshot.val();
     for (var keys in taps2) {
         if (keys == 'name') {
@@ -131,6 +146,7 @@ refTap2.on("value", function (snapshot) {
     // Google Charts call
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
+    setTimeout(drawCalendarChart, 1000);
     parseTimes();
     getTimes();
     //---------------------
@@ -174,47 +190,52 @@ var parseTimes = function(){
     // Add hours from tap 1
     for (var each in starttimeArray1) {
         hour = new Date(starttimeArray1[each]).getHours();
+
+        year = new Date(starttimeArray1[each]).getYear();
+        if (year == 116){
+            year = 2016;
+        }
+
+        month = new Date(starttimeArray1[each]).getMonth();
+        month = month + 1; // Adding to fix month being off by 1
+
+        day = new Date(starttimeArray1[each]).getUTCDate();
+
         gethours.push(hour);
+        getyears.push(year);
+        getmonths.push(month);
+        getdays.push(day);
     }
 
 
     // Add hours from tap 2
     for (var each2 in starttimeArray2){
         hour2 = new Date(starttimeArray2[each2]).getHours();
+
+        year = new Date(starttimeArray2[each2]).getYear();
+        if (year == 116){
+            year = 2016;
+        }
+
+        month = new Date(starttimeArray2[each2]).getMonth();
+        month = month + 1;
+
+        day = new Date(starttimeArray2[each2]).getUTCDate();
+
         gethours.push(hour2);
+        getyears.push(year);
+        getmonths.push(month);
+        getdays.push(day);
     }
 
     // Sort gethours Array
     gethours.sort();
 
-    // var counts = {};
-
+    // Filter out duplicates and count them
     for (var i = 0; i < gethours.length; i++) {
         hoursCounter[gethours[i]] = (hoursCounter[gethours[i]] + 1) || 1;
     }
-    // console.log(hoursCounter);
-    // Filter out duplicates and count them
-    // var current = null;
-    // var count = 0;
-    // for (var i = 0; i < gethours.length; i++) {
-    //     if (gethours[i] != current) {
-    //         if (count > 0) {
-    //             console.log(gethours[i] + ' comes ' + count + ' times');
-    //             hoursCounter.push({
-    //                 key: gethours[i],
-    //                 value: count
-    //             });
-    //             console.log("hour: " + gethours[i]);
-    //             console.log("count: " + count);
-    //         }
-    //         current = gethours[i];
-    //         count = 1;
-    //     } else {
-    //         count++;
-    //     }
-    //
-    // }
-    // hoursCounter.sort()
+
 };
 
 //---------------------------
@@ -223,12 +244,12 @@ var parseTimes = function(){
 // and the corechart package.
 //---------------------------
 
-google.charts.load('current', {'packages': ['corechart']});
+google.charts.load('current', {'packages': ['corechart', 'calendar']});
 
 
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawPieChart);
-
+google.charts.setOnLoadCallback(drawCalendarChart);
 
 
 //-------------
@@ -237,24 +258,26 @@ google.charts.setOnLoadCallback(drawPieChart);
 function drawChart() {
     // Create the data table.
     var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Times');
-    data.addColumn('number', 'Beers Per Hour');
+    data.addColumn('string', 'Times', { role: 'style' });
+    data.addColumn('number', 'Beers Per Hour', { role: 'style' });
     var date;
 
+
     for (var key in hoursCounter) {
-        console.log("key: " +key);
         var num = 0;
 
 
         if (key >= 12) {
-            date = key + ':00 PM';
+
+                date = key + ':00 PM';
+
         } else {
             date = key + ':00 AM';
         }
         num = hoursCounter[key];
 
         data.addRows([
-            [date, num]
+            [date, num, 'color: #66cc33']
         ]);
 
     }
@@ -297,9 +320,43 @@ function drawPieChart() {
         [beer_name_text2, tap2Num]
     ]);
 
+    var options = {
+        legend: 'none',
+        slices: {
+            0: { color: 'lightgreen' },
+            1: { color: 'green' }
+        }
+    };
+
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-    chart.draw(data);
+    chart.draw(data, options);
 }
 
 
+//--------------------
+// Draw Calendar Chart
+//--------------------
+function drawCalendarChart() {
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'date', id: 'Date' });
+    dataTable.addColumn({ type: 'number', id: 'Beer Count' });
+
+
+    for (var each in getyears) {
+        dataTable.addRows([
+            [new Date(getyears[each], getmonths[each], getdays[each]), 10]
+        ]);
+    }
+
+    var options = {
+        width: 700,
+        noDataPattern: {
+            backgroundColor: '#009933',
+            color: '#66cc33'
+        }
+    };
+
+    var chart = new google.visualization.Calendar(document.getElementById('calendar'));
+    chart.draw(dataTable, options);
+}
