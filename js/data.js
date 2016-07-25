@@ -24,6 +24,8 @@ var start_time = "";
 
 var hoursArray = [];
 var hoursCounter = [];
+var daysCounter = [];
+var daysNumberObject = {};
 var gethours = [];
 var getyears = [];
 var getmonths = [];
@@ -60,6 +62,7 @@ refTap1.on("value", function (snapshot) {
     gethours = [];
     year = 0;
     hoursCounter = [];
+    daysCounter = [];
     getyears = [];
     getmonths = [];
     getdays = [];
@@ -85,11 +88,13 @@ refTap1.on("value", function (snapshot) {
         }
     }
     // Google Charts call
+    getTimes();
+    parseTimes();
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
     setTimeout(drawCalendarChart, 1000);
     start_time = starttimeArray1[0];
-    getTimes();
+
     // parseTimes();
     // end_time1 = timestampArray1[timestampArray1.length - 1];
 
@@ -117,6 +122,7 @@ refTap2.on("value", function (snapshot) {
     stoptimeArray2 = [];
     gethours = [];
     hoursCounter = [];
+    daysCounter = [];
     getyears = [];
     getmonths = [];
     getdays = [];
@@ -143,11 +149,12 @@ refTap2.on("value", function (snapshot) {
         }
     }
     // Google Charts call
+    parseTimes();
+    getTimes();
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
     setTimeout(drawCalendarChart, 1000);
-    parseTimes();
-    getTimes();
+
     //---------------------
     // Set total # of beers
     //---------------------
@@ -231,6 +238,14 @@ var parseTimes = function(){
     // Sort gethours Array
     gethours.sort();
 
+    for (var i = 0; i < getdays.length; i++) {
+        daysCounter[getdays[i]] = (daysCounter[getdays[i]] + 1) || 1;
+        daysNumberObject = {
+            day: getdays[i],
+            number: daysCounter[getdays[i]]
+        };
+    }
+
     // Filter out duplicates and count them
     for (var i = 0; i < gethours.length; i++) {
         hoursCounter[gethours[i]] = (hoursCounter[gethours[i]] + 1) || 1;
@@ -298,14 +313,13 @@ function drawChart() {
             }
         },
         colors: ['#66cc33']
-        
+
     };
 
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     chart.draw(data, options);
-    // hoursArray = [];
 }
 
 
@@ -339,10 +353,14 @@ function drawCalendarChart() {
     dataTable.addColumn({ type: 'date', id: 'Date' });
     dataTable.addColumn({ type: 'number', id: 'Beer Count' });
 
+    var num2 = 0;
+    for (var item in daysCounter) {
+        num2 = daysCounter[item];
+    }
 
     for (var each in getyears) {
         dataTable.addRows([
-            [new Date(getyears[each], getmonths[each], getdays[each]), 10]
+            [new Date(getyears[each], getmonths[each], getdays[each]), num2]
         ]);
     }
 
