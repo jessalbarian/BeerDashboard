@@ -311,7 +311,7 @@ function drawChart() {
                 color: '#000'
             }
         },
-        colors: ['#66cc33'],
+        colors: ['#ff3333'],
         outlineColor: ['#000']
     };
 
@@ -332,8 +332,8 @@ function drawPieChart() {
 
     var options = {
         slices: {
-            0: { color: 'lightgreen' },
-            1: { color: 'green' }
+            0: { color: 'pink' },
+            1: { color: 'red' }
         },
         is3D: true,
         pieSliceTextStyle: {
@@ -368,8 +368,8 @@ function drawCalendarChart() {
 
     var options = {
         noDataPattern: {
-            backgroundColor: '#009933',
-            color: '#66cc33'
+            backgroundColor: '#ff3333',
+            color: '#ff3333'
         },
         calendar: {
             cellColor: {
