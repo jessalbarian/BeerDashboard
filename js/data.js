@@ -391,6 +391,11 @@ function drawCalendarChart() {
                 strokeOpacity: 0.5,
                 strokeWidth: 1,
             },
+            focusedCellColor: {
+                stroke: '#ff3333',
+                strokeOpacity: 1,
+                strokeWidth: 1
+            },
             monthOutlineColor: {
                 stroke: '#000',
                 strokeWidth: 2
