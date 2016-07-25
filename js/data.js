@@ -332,7 +332,6 @@ function drawPieChart() {
     ]);
 
     var options = {
-        legend: 'none',
         slices: {
             0: { color: 'lightgreen' },
             1: { color: 'green' }
@@ -369,6 +368,13 @@ function drawCalendarChart() {
         noDataPattern: {
             backgroundColor: '#009933',
             color: '#66cc33'
+        },
+        calendar: {
+            cellColor: {
+                stroke: '#fff',
+                strokeOpacity: 0.5,
+                strokeWidth: 1,
+            }
         }
     };
 
