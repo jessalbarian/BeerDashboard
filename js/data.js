@@ -14,6 +14,8 @@ var total_hours = document.getElementById('total_hours');
 var total_minutes = document.getElementById('total_minutes');
 var total_seconds = document.getElementById('total_seconds');
 var topbeer = document.getElementById('topbeer');
+var ounces = document.getElementById('ounces');
+var bread = document.getElementById('bread');
 
 var tap1Num = 0;
 var tap2Num = 0;
@@ -174,8 +176,10 @@ refTap2.on("value", function (snapshot) {
 var topBeer = function() {
     if (tap1Num > tap2Num){
         topbeer.innerHTML = "Most Poured Beer: IPA";
+        ounces.innerHTML = String(tap1Num*16) + " ounces";
     } else {
         topbeer.innerHTML = "Most Poured Beer: Porter";
+        ounces.innerHTML = String(tap2Num*16) + " ounces";
     }
 };
 
@@ -479,6 +483,7 @@ function drawCheese2Chart() {
         [150, 15]
     ]);
 
+    bread.innerHTML = "That's " + String(75*2) + " pieces of bread!";
 
     var options = {
         legend: {position: 'none'},
