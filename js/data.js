@@ -198,7 +198,6 @@ var parseTimes = function(){
         hour = new Date(starttimeArray1[each]).getHours();
 
         year = new Date(starttimeArray1[each]).getUTCFullYear()
-        console.log(year);
         if (year == 116){
             year = 2016;
         }
@@ -313,7 +312,6 @@ function drawChart() {
             }
         },
         colors: ['#66cc33']
-
     };
 
 
@@ -335,6 +333,10 @@ function drawPieChart() {
         slices: {
             0: { color: 'lightgreen' },
             1: { color: 'green' }
+        },
+        is3D: true,
+        pieSliceTextStyle: {
+            color: 'black',
         }
     };
 
