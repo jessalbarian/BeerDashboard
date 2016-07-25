@@ -332,7 +332,7 @@ function drawPieChart() {
 
     var options = {
         slices: {
-            0: { color: 'pink' },
+            0: { color: 'lightgrey' },
             1: { color: 'red' }
         },
         is3D: true,
