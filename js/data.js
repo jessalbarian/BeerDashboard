@@ -311,7 +311,8 @@ function drawChart() {
                 color: '#000'
             }
         },
-        colors: ['#66cc33']
+        colors: ['#66cc33'],
+        outlineColor: ['#000']
     };
 
 
@@ -351,10 +352,10 @@ function drawPieChart() {
 //--------------------
 function drawCalendarChart() {
     var dataTable = new google.visualization.DataTable();
-    dataTable.addColumn({ type: 'date', id: 'Date' });
-    dataTable.addColumn({ type: 'number', id: 'Beer Count' });
+    dataTable.addColumn({ type: 'date', id: 'Date'});
+    dataTable.addColumn({ type: 'number', id: 'Beer Count'});
 
-    var num2 = 0;
+    var num2;
     for (var item in daysCounter) {
         num2 = daysCounter[item];
     }
@@ -366,7 +367,6 @@ function drawCalendarChart() {
     }
 
     var options = {
-        width: 700,
         noDataPattern: {
             backgroundColor: '#009933',
             color: '#66cc33'
@@ -376,8 +376,17 @@ function drawCalendarChart() {
                 stroke: '#fff',
                 strokeOpacity: 0.5,
                 strokeWidth: 1,
+            },
+            monthOutlineColor: {
+                stroke: '#000',
+                strokeWidth: 2
+            },
+            unusedMonthOutlineColor: {
+                stroke: '#fff',
+                strokeWidth: 1
             }
         }
+
     };
 
     var chart = new google.visualization.Calendar(document.getElementById('calendar'));
