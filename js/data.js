@@ -279,7 +279,7 @@ google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawPieChart);
 google.charts.setOnLoadCallback(drawCalendarChart);
 google.charts.setOnLoadCallback(drawCheeseChart);
-
+google.charts.setOnLoadCallback(drawCheese2Chart);
 //-------------
 // Create chart
 //-------------
@@ -417,15 +417,15 @@ function drawCheeseChart() {
     data.addColumn('number', 'Grilled Cheese\'s Per Hour');
 
         data.addRows([
-            ['9:00 AM', 2],
-            ['11:00 AM', 5],
-            ['12:00 PM', 15],
-            ['1:00 PM', 20],
-            ['2:00 PM', 16],
-            ['3:00 PM', 7],
-            ['4:00 PM', 10]
+            ['9:00', 2],
+            ['11:00', 5],
+            ['12:00', 15],
+            ['1:00', 20],
+            ['2:00', 16],
+            ['3:00', 7],
+            ['4:00', 10]
         ]);
-    
+
 
     var options = {
         legend: {position: 'none'},
@@ -435,11 +435,13 @@ function drawCheeseChart() {
             color: '#000'
         },
         vAxis: {
+            title: "Number of Beers",
             textStyle: {
                 color: '#000'
             }
         },
         hAxis: {
+            title: "Time",
             textStyle: {
                 color: '#000'
             }
@@ -451,5 +453,53 @@ function drawCheeseChart() {
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.ColumnChart(document.getElementById('cheesechart_div'));
+    chart.draw(data, options);
+}
+
+
+
+//--------------------
+// Cheese Column 2 Chart
+//--------------------
+function drawCheese2Chart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Times in Seconds');
+    data.addColumn('number', 'Grilled Cheese\'s Cook Time');
+
+    data.addRows([
+        [30, 2],
+        [60, 15],
+        [90, 35],
+        [120, 3],
+        [150, 15]
+    ]);
+
+
+    var options = {
+        legend: {position: 'none'},
+        backgroundColor: {fill: 'transparent'},
+        textStyle: {color: '#000'},
+        titleTextStyle: {
+            color: '#000'
+        },
+        vAxis: {
+            title: "Number of Sandwiches",
+            textStyle: {
+                color: '#000'
+            }
+        },
+        hAxis: {
+            title: "Seconds",
+            textStyle: {
+                color: '#000'
+            }
+        },
+        colors: ['#ff3333'],
+        outlineColor: ['#000']
+    };
+
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.ColumnChart(document.getElementById('cheese2chart_div'));
     chart.draw(data, options);
 }

@@ -6773,8 +6773,10 @@ button.close {
   font-size: 3em;
 }
 
-/*#beer {*/
-  /*background-image: url("../img/flight.jpg");*/
-  /*background-repeat: none;*/
-  /*background-position: bottom;*/
-/*}*/
+footer {
+  background-color: #000;
+  color: #fff;
+}
+footer h4 {
+  color: #fff;
+}
