@@ -13,6 +13,7 @@ var tap2Number = document.getElementById('tap2Number');
 var total_hours = document.getElementById('total_hours');
 var total_minutes = document.getElementById('total_minutes');
 var total_seconds = document.getElementById('total_seconds');
+var topbeer = document.getElementById('topbeer');
 
 var tap1Num = 0;
 var tap2Num = 0;
@@ -93,6 +94,7 @@ refTap1.on("value", function (snapshot) {
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
     setTimeout(drawCalendarChart, 1000);
+    topBeer();
     start_time = starttimeArray1[0];
 
     // parseTimes();
@@ -154,7 +156,7 @@ refTap2.on("value", function (snapshot) {
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
     setTimeout(drawCalendarChart, 1000);
-
+    topBeer();
     //---------------------
     // Set total # of beers
     //---------------------
@@ -167,10 +169,22 @@ refTap2.on("value", function (snapshot) {
     total_beers.innerHTML = "Calculating";
 });
 
+
+
+var topBeer = function() {
+    if (tap1Num > tap2Num){
+        topbeer.innerHTML = "Most Poured Beer: IPA";
+    } else {
+        topbeer.innerHTML = "Most Poured Beer: Porter";
+    }
+};
+
+
+
 //---------------------------------------
 // Get Hours, Minutes, Seconds of pouring
 //---------------------------------------
-var getTimes = function () {
+var getTimes = function() {
     var tap1Seconds = (starttimeArray1.length)*6;
     var tap2Seconds = (starttimeArray2.length)*6;
     var tap1Minutes = (starttimeArray1.length)/60;
@@ -264,7 +278,7 @@ google.charts.load('current', {'packages': ['corechart', 'calendar']});
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawPieChart);
 google.charts.setOnLoadCallback(drawCalendarChart);
-
+google.charts.setOnLoadCallback(drawCheeseChart);
 
 //-------------
 // Create chart
@@ -391,4 +405,51 @@ function drawCalendarChart() {
 
     var chart = new google.visualization.Calendar(document.getElementById('calendar'));
     chart.draw(dataTable, options);
+}
+
+
+//--------------------
+// Cheese Column Chart
+//--------------------
+function drawCheeseChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Times');
+    data.addColumn('number', 'Grilled Cheese\'s Per Hour');
+
+        data.addRows([
+            ['9:00 AM', 2],
+            ['11:00 AM', 5],
+            ['12:00 PM', 15],
+            ['1:00 PM', 20],
+            ['2:00 PM', 16],
+            ['3:00 PM', 7],
+            ['4:00 PM', 10]
+        ]);
+    
+
+    var options = {
+        legend: {position: 'none'},
+        backgroundColor: {fill: 'transparent'},
+        textStyle: {color: '#000'},
+        titleTextStyle: {
+            color: '#000'
+        },
+        vAxis: {
+            textStyle: {
+                color: '#000'
+            }
+        },
+        hAxis: {
+            textStyle: {
+                color: '#000'
+            }
+        },
+        colors: ['#ff3333'],
+        outlineColor: ['#000']
+    };
+
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.ColumnChart(document.getElementById('cheesechart_div'));
+    chart.draw(data, options);
 }
