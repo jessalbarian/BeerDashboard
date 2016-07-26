@@ -88,6 +88,17 @@ refTap1.on("value", function (snapshot) {
                     }
                 }
             }
+        } else if (key == 'alltimes'){
+            for (var each2 in taps[key]){
+                for (var start2 in taps[key][each2]){
+                    if (start2 == 'start_time') {
+                        starttimeArray1.push(taps[key][each2][start2]);
+                        hoursArray.push(taps[key][each2][start2]);
+                    } else if (start2 == 'stop_time'){
+                        stoptimeArray1.push(taps[key][each2][start2]);
+                    }
+                }
+            }
         }
     }
     // Google Charts call
@@ -138,16 +149,27 @@ refTap2.on("value", function (snapshot) {
         } else if (keys == 'times') {
             tap2Num = taps2[keys].length - 1
             tap2Number.innerHTML = tap2Num;
-            for (var each2 in taps2[keys]) {
+            for (var each3 in taps2[keys]) {
 
-                for (var start2 in taps2[keys][each2]) {
-                    if (start2 == 'start_time') {
-                        starttimeArray2.push(taps2[keys][each2][start2]);
-                        hoursArray.push(taps2[keys][each2][start2]);
-                    } else if (start2 == 'stop_time') {
-                        stoptimeArray2.push(taps2[keys][each2][start2]);
+                for (var start3 in taps2[keys][each3]) {
+                    if (start3 == 'start_time') {
+                        starttimeArray2.push(taps2[keys][each3][start3]);
+                        hoursArray.push(taps2[keys][each3][start3]);
+                    } else if (start3 == 'stop_time') {
+                        stoptimeArray2.push(taps2[keys][each3][start3]);
                     }
 
+                }
+            }
+        } else if (keys == 'alltimes'){
+            for (var each4 in taps2[keys]){
+                for (var start4 in taps2[keys][each4]){
+                    if (start4 == 'start_time') {
+                        starttimeArray2.push(taps2[keys][each4][start4]);
+                        hoursArray.push(taps2[keys][each4][start4]);
+                    }else if (start4 == 'stop_time') {
+                        stoptimeArray2.push(taps2[keys][each4][start4]);
+                    }
                 }
             }
         }
