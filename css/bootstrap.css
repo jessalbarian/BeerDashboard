@@ -6779,3 +6779,21 @@ footer {
 footer h4 {
   color: #fff;
 }
+#beer {
+  background-image: url("../img/beerwood.jpg");
+  width: 100%;
+  z-index: 0;
+  background-size: cover;
+  background-position: top;
+  background-attachment: fixed;
+}
+
+#cheese {
+  background-image: url("../img/picnic.jpg");
+  width: 100%;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
