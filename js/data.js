@@ -58,6 +58,9 @@ var year2 = 0;
 var month2 = 0;
 var day2 = 0;
 
+var gallons = 0;
+var gallons2 = 0;
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDHZV87dHoRq7iYnhfYLIvp9H1Bw2ljro8",
@@ -95,7 +98,6 @@ refTap1.on("value", function (snapshot) {
     otherstoptimes1 = [];
     gethours = [];
     gethours2 = [];
-    year = 0;
     hoursCounter = [];
     hoursCounter2 = [];
     daysCounter = [];
@@ -136,6 +138,12 @@ refTap1.on("value", function (snapshot) {
                     }
                 }
             }
+        } else if (key == 'current_keg'){
+            for (var each3 in taps[key]) {
+                if (each3 == 'amount') {
+                    gallons = taps[key][each3];
+                }
+            }
         }
     }
     // Google Charts call
@@ -146,6 +154,7 @@ refTap1.on("value", function (snapshot) {
     setTimeout(drawChart2, 1000)
     // setTimeout(drawCalendarChart, 1000);
     topBeer();
+    amount();
     start_time = starttimeArray1[0];
 
     // parseTimes();
@@ -217,6 +226,12 @@ refTap2.on("value", function (snapshot) {
                     }
                 }
             }
+        } else if (keys == 'current_keg'){
+            for (var each5 in taps2[keys]) {
+                if (each5 == 'amount') {
+                    gallons2 = taps2[keys][each5];
+                }
+            }
         }
     }
     // Google Charts call
@@ -227,6 +242,7 @@ refTap2.on("value", function (snapshot) {
     setTimeout(drawChart2, 1000);
     // setTimeout(drawCalendarChart, 1000);
     topBeer();
+    amount();
     //---------------------
     // Set total # of beers
     //---------------------
@@ -240,7 +256,9 @@ refTap2.on("value", function (snapshot) {
 });
 
 
-
+//--------------
+// Get Top Drink
+//--------------
 var topBeer = function() {
     if (tap1Num > tap2Num){
         topbeer.innerHTML = "Most Poured Drink: " + tap1_name_text;
@@ -250,6 +268,20 @@ var topBeer = function() {
         ounces2.innerHTML = String(tap2Num*12);
     }
 };
+
+
+//----------------------------
+// How much is left in the keg
+//----------------------------
+var amount = function(){
+
+
+    var today = Date();
+    console.log(today);
+
+}
+
+
 
 
 
