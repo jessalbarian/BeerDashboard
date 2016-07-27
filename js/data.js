@@ -644,7 +644,7 @@ function drawCheese2Chart() {
             color: '#000'
         },
         vAxis: {
-            title: "Number of Sandwiches",
+            title: "Number of Grilled Cheese",
             textStyle: {
                 color: '#000'
             }
