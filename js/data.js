@@ -412,7 +412,7 @@ function drawChart() {
                 color: '#000'
             }
         },
-        colors: ['#ff3333'],
+        colors: ['#4cae4c'],
         outlineColor: ['#000']
     };
 
@@ -471,7 +471,7 @@ function drawChart2() {
                 color: '#000'
             }
         },
-        colors: ['#ff3333'],
+        colors: ['#2E0854'],
         outlineColor: ['#000']
     };
 
@@ -494,8 +494,8 @@ function drawPieChart() {
 
     var options = {
         slices: {
-            0: { color: 'red' },
-            1: { color: 'lightgrey' }
+            0: { color: 'green' },
+            1: { color: 'lightgreen' }
         },
         is3D: true,
         pieSliceTextStyle: {

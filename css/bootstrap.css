@@ -6765,6 +6765,13 @@ button.close {
   color: #ff3333;
 }
 
+.text-purple {
+  color: #2E0854;
+}
+
+.text-green {
+  color: #4cae4c;
+}
 .text-white {
   color: #fff;
 }
