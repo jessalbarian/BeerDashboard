@@ -301,7 +301,7 @@ var parseTimes = function(){
     for (var each2 in starttimeArray2){
         hour2 = new Date(starttimeArray2[each2]).getHours();
 
-        year2 = new Date(starttimeArray2[each2]).getYear();
+        year2 = new Date(starttimeArray2[each2]).getUTCFullYear();
         if (year == 116){
             year = 2016;
         }
@@ -312,9 +312,9 @@ var parseTimes = function(){
         day2 = new Date(starttimeArray2[each2]).getUTCDate();
 
         gethours2.push(hour2);
-        getyears2.push(year);
-        getmonths2.push(month);
-        getdays2.push(day);
+        getyears2.push(year2);
+        getmonths2.push(month2);
+        getdays2.push(day2);
     }
 
     // Sort gethours Array
