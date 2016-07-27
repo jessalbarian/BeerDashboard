@@ -6799,3 +6799,14 @@ footer h4 {
   background-repeat: no-repeat;
 }
 
+#coffee {
+  background-image: url("../img/coffee.jpg");
+  width: 100%;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+

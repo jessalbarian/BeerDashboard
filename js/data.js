@@ -13,8 +13,12 @@ var tap2Number = document.getElementById('tap2Number');
 var total_hours = document.getElementById('total_hours');
 var total_minutes = document.getElementById('total_minutes');
 var total_seconds = document.getElementById('total_seconds');
+var total_hours2 = document.getElementById('total_hours2');
+var total_minutes2 = document.getElementById('total_minutes2');
+var total_seconds2 = document.getElementById('total_seconds2');
 var topbeer = document.getElementById('topbeer');
-var ounces = document.getElementById('ounces');
+var topbeer2 = document.getElementById('topbeer2');
+var ounces2 = document.getElementById('ounces2');
 var bread = document.getElementById('bread');
 
 var tap1Num = 0;
@@ -27,13 +31,19 @@ var start_time = "";
 
 var hoursArray = [];
 var hoursCounter = [];
+var hoursCounter2 = [];
 var daysCounter = [];
+var daysCounter2 = [];
 var daysNumberObject = {};
-
+var daysNumberObject2 = {};
 var gethours = [];
 var getyears = [];
 var getmonths = [];
 var getdays = [];
+var gethours2 = [];
+var getyears2 = [];
+var getmonths2 = [];
+var getdays2 = [];
 
 var hour = 0;
 var hour2 = 0;
@@ -45,6 +55,9 @@ var stop2 = 0;
 var year = 0;
 var month = 0;
 var day = 0;
+var year2 = 0;
+var month2 = 0;
+var day2 = 0;
 
 // Initialize Firebase
 var config = {
@@ -69,6 +82,10 @@ var otherstarttimes2 = [];
 var otherstoptimes1 = [];
 var otherstoptimes2 = [];
 var times = [];
+
+
+
+
 //---------------
 // Get tap 1 data
 //---------------
@@ -80,7 +97,9 @@ refTap1.on("value", function (snapshot) {
     gethours = [];
     year = 0;
     hoursCounter = [];
+    hoursCounter2 = [];
     daysCounter = [];
+    daysCounter2 = [];
     getyears = [];
     getmonths = [];
     getdays = [];
@@ -121,6 +140,7 @@ refTap1.on("value", function (snapshot) {
     parseTimes();
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
+    setTimeout(drawChart2, 1000)
     // setTimeout(drawCalendarChart, 1000);
     topBeer();
     start_time = starttimeArray1[0];
@@ -131,7 +151,7 @@ refTap1.on("value", function (snapshot) {
     //---------------------
     // Set total # of beers
     //---------------------
-    total_beers.innerHTML = tap2Num + tap1Num;
+    total_beers.innerHTML = tap1Num;
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
     // Set number of tap1 beers
@@ -153,7 +173,9 @@ refTap2.on("value", function (snapshot) {
     otherstoptimes2 = [];
     gethours = [];
     hoursCounter = [];
+    hoursCounter2 = [];
     daysCounter = [];
+    daysCounter2 = [];
     getyears = [];
     getmonths = [];
     getdays = [];
@@ -195,12 +217,13 @@ refTap2.on("value", function (snapshot) {
     getTimes();
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
+    setTimeout(drawChart2, 1000);
     // setTimeout(drawCalendarChart, 1000);
     topBeer();
     //---------------------
     // Set total # of beers
     //---------------------
-    total_beers.innerHTML = tap2Num + tap1Num;
+    total_beers.innerHTML = tap1Num;
 
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
@@ -214,10 +237,10 @@ refTap2.on("value", function (snapshot) {
 var topBeer = function() {
     if (tap1Num > tap2Num){
         topbeer.innerHTML = "Most Poured Drink: " + tap1_name_text;
-        ounces.innerHTML = String(tap1Num*12) + " ounces";
+        ounces2.innerHTML = String(tap2Num*12);
     } else {
         topbeer.innerHTML = "Most Poured Drink: " + tap2_name_text;
-        ounces.innerHTML = String(tap2Num*12) + " ounces";
+        ounces2.innerHTML = String(tap2Num*12);
     }
 };
 
@@ -233,30 +256,16 @@ var getTimes = function() {
     var tap1Minutes = (starttimeArray1.length)/60;
     var tap2Minutes = (starttimeArray2.length)/60;
 
+    var tap1Hours = (tap1Seconds/3600);
+    var tap2Hours = (tap2Seconds/3600);
 
-    var sec = [];
-    for (var each3 in otherstarttimes1){
-        start1 = new Date(otherstarttimes1[each3]).getSeconds();
-        stop1 = new Date(otherstoptimes1[each3]).getSeconds();
-        if ((stop1 - start2) >= 0) {
-            sec.push(stop1 - start2);
-            console.log(stop1 - start1);
-        }
-    }
-    var sum = sec.reduce(add, 0);
+    total_hours.innerHTML = tap1Hours.toFixed(1);
+    total_minutes.innerHTML = tap1Minutes.toFixed(1);
+    total_seconds.innerHTML = tap1Seconds.toFixed(0);
 
-    function add(a, b) {
-        return a + b;
-    }
-    console.log(sum);
-
-    var tapTotalMinutes = tap1Minutes + tap2Minutes ;
-    var tapTotalSeconds = tap1Seconds + tap2Seconds;
-    var tapTotalHours = (tap1Seconds/3600) + (tap2Seconds/3600);
-
-    total_hours.innerHTML = tapTotalHours.toFixed(1);
-    total_minutes.innerHTML = tapTotalMinutes.toFixed(1);
-    total_seconds.innerHTML = tapTotalSeconds.toFixed(0);
+    total_hours2.innerHTML = tap2Hours.toFixed(1);
+    total_minutes2.innerHTML = tap2Minutes.toFixed(1);
+    total_seconds2.innerHTML = tap2Seconds.toFixed(0);
 };
 
 
@@ -292,24 +301,25 @@ var parseTimes = function(){
     for (var each2 in starttimeArray2){
         hour2 = new Date(starttimeArray2[each2]).getHours();
 
-        year = new Date(starttimeArray2[each2]).getYear();
+        year2 = new Date(starttimeArray2[each2]).getYear();
         if (year == 116){
             year = 2016;
         }
 
-        month = new Date(starttimeArray2[each2]).getMonth();
+        month2 = new Date(starttimeArray2[each2]).getMonth();
         // month = month + 1;
 
-        day = new Date(starttimeArray2[each2]).getUTCDate();
+        day2 = new Date(starttimeArray2[each2]).getUTCDate();
 
-        gethours.push(hour2);
-        getyears.push(year);
-        getmonths.push(month);
-        getdays.push(day);
+        gethours2.push(hour2);
+        getyears2.push(year);
+        getmonths2.push(month);
+        getdays2.push(day);
     }
 
     // Sort gethours Array
     gethours.sort();
+    gethours2.sort();
 
     for (var i = 0; i < getdays.length; i++) {
         daysCounter[getdays[i]] = (daysCounter[getdays[i]] + 1) || 1;
@@ -324,6 +334,19 @@ var parseTimes = function(){
         hoursCounter[gethours[i]] = (hoursCounter[gethours[i]] + 1) || 1;
     }
 
+    for (var j = 0; j < getdays2.length; j++) {
+        daysCounter2[getdays2[j]] = (daysCounter2[getdays2[j]] + 1) || 1;
+        daysNumberObject2 = {
+            day: getdays2[j],
+            number: daysCounter2[getdays2[j]]
+        };
+    }
+
+    // Filter out duplicates and count them
+    for (var j = 0; j < gethours2.length; j++) {
+        hoursCounter2[gethours2[j]] = (hoursCounter2[gethours2[j]] + 1) || 1;
+    }
+
 };
 
 //---------------------------
@@ -336,10 +359,12 @@ google.charts.load('current', {'packages': ['corechart', 'calendar']});
 
 
 google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawChart2);
 google.charts.setOnLoadCallback(drawPieChart);
 // google.charts.setOnLoadCallback(drawCalendarChart);
 google.charts.setOnLoadCallback(drawCheeseChart);
 google.charts.setOnLoadCallback(drawCheese2Chart);
+
 //-------------
 // Create chart
 //-------------
@@ -376,11 +401,13 @@ function drawChart() {
             color: '#000'
         },
         vAxis: {
+            title: "Number of Beers",
             textStyle: {
                 color: '#000'
             }
         },
         hAxis: {
+            title: "Time",
             textStyle: {
                 color: '#000'
             }
@@ -394,6 +421,67 @@ function drawChart() {
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     chart.draw(data, options);
 }
+
+
+
+//-------------
+// Create chart
+//-------------
+function drawChart2() {
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Times');
+    data.addColumn('number', 'Coffees per Hour');
+    var date;
+
+
+    for (var key in hoursCounter2) {
+        var num = 0;
+
+        if (key >= 12) {
+            date = key + ':00 PM';
+        } else {
+            date = key + ':00 AM';
+        }
+
+        num = hoursCounter2[key];
+
+        data.addRows([
+            [date, num]
+        ]);
+        // 'color: #66cc33'
+    }
+
+    var options = {
+        legend: {position: 'none'},
+        backgroundColor: {fill: 'transparent'},
+        textStyle: {color: '#000'},
+        titleTextStyle: {
+            color: '#000'
+        },
+        vAxis: {
+            title: "Number of Coffees",
+            textStyle: {
+                color: '#000'
+            }
+        },
+        hAxis: {
+            title: "Time",
+            textStyle: {
+                color: '#000'
+            }
+        },
+        colors: ['#ff3333'],
+        outlineColor: ['#000']
+    };
+
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+    chart.draw(data, options);
+}
+
+
 
 
 function drawPieChart() {
@@ -500,7 +588,7 @@ function drawCheeseChart() {
             color: '#000'
         },
         vAxis: {
-            title: "Number of Beers",
+            title: "Number of Grilled Cheese",
             textStyle: {
                 color: '#000'
             }
