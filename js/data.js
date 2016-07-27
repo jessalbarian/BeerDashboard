@@ -121,7 +121,7 @@ refTap1.on("value", function (snapshot) {
     parseTimes();
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
-    setTimeout(drawCalendarChart, 1000);
+    // setTimeout(drawCalendarChart, 1000);
     topBeer();
     start_time = starttimeArray1[0];
 
@@ -195,7 +195,7 @@ refTap2.on("value", function (snapshot) {
     getTimes();
     setTimeout(drawPieChart, 1000);
     setTimeout(drawChart, 1000);
-    setTimeout(drawCalendarChart, 1000);
+    // setTimeout(drawCalendarChart, 1000);
     topBeer();
     //---------------------
     // Set total # of beers
@@ -337,7 +337,7 @@ google.charts.load('current', {'packages': ['corechart', 'calendar']});
 
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawPieChart);
-google.charts.setOnLoadCallback(drawCalendarChart);
+// google.charts.setOnLoadCallback(drawCalendarChart);
 google.charts.setOnLoadCallback(drawCheeseChart);
 google.charts.setOnLoadCallback(drawCheese2Chart);
 //-------------
