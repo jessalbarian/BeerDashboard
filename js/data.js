@@ -20,8 +20,8 @@ var bread = document.getElementById('bread');
 var tap1Num = 0;
 var tap2Num = 0;
 
-var beer_name_text1 = ""
-var beer_name_text2 = ""
+var tap1_name_text = ""
+var tap2_name_text = ""
 
 var start_time = "";
 
@@ -29,12 +29,18 @@ var hoursArray = [];
 var hoursCounter = [];
 var daysCounter = [];
 var daysNumberObject = {};
+
 var gethours = [];
 var getyears = [];
 var getmonths = [];
 var getdays = [];
+
 var hour = 0;
 var hour2 = 0;
+var start1 = 0;
+var stop1 = 0;
+var start2 = 0;
+var stop2 = 0;
 
 var year = 0;
 var month = 0;
@@ -55,6 +61,13 @@ var refTap2 = firebase.database().ref('tap2/');
 
 var starttimeArray1 = [];
 var stoptimeArray1 = [];
+var starttimeArray2 = [];
+var stoptimeArray2 = [];
+
+var otherstarttimes1 = [];
+var otherstarttimes2 = [];
+var otherstoptimes1 = [];
+var otherstoptimes2 = [];
 var times = [];
 //---------------
 // Get tap 1 data
@@ -62,6 +75,8 @@ var times = [];
 refTap1.on("value", function (snapshot) {
     starttimeArray1 = [];
     stoptimeArray1 = [];
+    otherstarttimes1 = [];
+    otherstoptimes1 = [];
     gethours = [];
     year = 0;
     hoursCounter = [];
@@ -73,7 +88,7 @@ refTap1.on("value", function (snapshot) {
     for (var key in taps) {
         if (key == 'name') {
             beer_name1.innerHTML = taps[key] + 's';
-            beer_name_text1 = taps[key] + 's';
+            tap1_name_text = taps[key];
         } else if (key == 'times') {
             tap1Num = taps[key].length - 1
             tap1Number.innerHTML = tap1Num;
@@ -92,10 +107,10 @@ refTap1.on("value", function (snapshot) {
             for (var each2 in taps[key]){
                 for (var start2 in taps[key][each2]){
                     if (start2 == 'start_time') {
-                        starttimeArray1.push(taps[key][each2][start2]);
-                        hoursArray.push(taps[key][each2][start2]);
+                        otherstarttimes1.push(taps[key][each2][start2]);
+                        // hoursArray.push(taps[key][each2][start2]);
                     } else if (start2 == 'stop_time'){
-                        stoptimeArray1.push(taps[key][each2][start2]);
+                        otherstoptimes1.push(taps[key][each2][start2]);
                     }
                 }
             }
@@ -127,14 +142,15 @@ refTap1.on("value", function (snapshot) {
 
 
 
-var starttimeArray2 = [];
-var stoptimeArray2 = [];
+
 //---------------
 // Get tap 2 data
 //---------------
 refTap2.on("value", function (snapshot) {
     starttimeArray2 = [];
     stoptimeArray2 = [];
+    otherstarttimes2 = [];
+    otherstoptimes2 = [];
     gethours = [];
     hoursCounter = [];
     daysCounter = [];
@@ -145,7 +161,7 @@ refTap2.on("value", function (snapshot) {
     for (var keys in taps2) {
         if (keys == 'name') {
             beer_name2.innerHTML = taps2[keys] + 's';
-            beer_name_text2 = taps2[keys] + 's';
+            tap2_name_text = taps2[keys];
         } else if (keys == 'times') {
             tap2Num = taps2[keys].length - 1
             tap2Number.innerHTML = tap2Num;
@@ -165,10 +181,10 @@ refTap2.on("value", function (snapshot) {
             for (var each4 in taps2[keys]){
                 for (var start4 in taps2[keys][each4]){
                     if (start4 == 'start_time') {
-                        starttimeArray2.push(taps2[keys][each4][start4]);
-                        hoursArray.push(taps2[keys][each4][start4]);
+                        otherstarttimes2.push(taps2[keys][each4][start4]);
+                        // hoursArray.push(taps2[keys][each4][start4]);
                     }else if (start4 == 'stop_time') {
-                        stoptimeArray2.push(taps2[keys][each4][start4]);
+                        otherstoptimes2.push(taps2[keys][each4][start4]);
                     }
                 }
             }
@@ -197,11 +213,11 @@ refTap2.on("value", function (snapshot) {
 
 var topBeer = function() {
     if (tap1Num > tap2Num){
-        topbeer.innerHTML = "Most Poured Beer: IPA";
-        ounces.innerHTML = String(tap1Num*16) + " ounces";
+        topbeer.innerHTML = "Most Poured Drink: " + tap1_name_text;
+        ounces.innerHTML = String(tap1Num*12) + " ounces";
     } else {
-        topbeer.innerHTML = "Most Poured Beer: Porter";
-        ounces.innerHTML = String(tap2Num*16) + " ounces";
+        topbeer.innerHTML = "Most Poured Drink: " + tap2_name_text;
+        ounces.innerHTML = String(tap2Num*12) + " ounces";
     }
 };
 
@@ -213,10 +229,28 @@ var topBeer = function() {
 var getTimes = function() {
     var tap1Seconds = (starttimeArray1.length)*6;
     var tap2Seconds = (starttimeArray2.length)*6;
+
     var tap1Minutes = (starttimeArray1.length)/60;
     var tap2Minutes = (starttimeArray2.length)/60;
 
-    var tapTotalMinutes = tap1Minutes + tap2Minutes;
+
+    var sec = [];
+    for (var each3 in otherstarttimes1){
+        start1 = new Date(otherstarttimes1[each3]).getSeconds();
+        stop1 = new Date(otherstoptimes1[each3]).getSeconds();
+        if ((stop1 - start2) >= 0) {
+            sec.push(stop1 - start2);
+            console.log(stop1 - start1);
+        }
+    }
+    var sum = sec.reduce(add, 0);
+
+    function add(a, b) {
+        return a + b;
+    }
+    console.log(sum);
+
+    var tapTotalMinutes = tap1Minutes + tap2Minutes ;
     var tapTotalSeconds = tap1Seconds + tap2Seconds;
     var tapTotalHours = (tap1Seconds/3600) + (tap2Seconds/3600);
 
@@ -233,7 +267,7 @@ var getTimes = function() {
 var parseTimes = function(){
 
 
-    // Add hours from tap 1
+    // Add times from tap 1
     for (var each in starttimeArray1) {
         hour = new Date(starttimeArray1[each]).getHours();
 
@@ -254,7 +288,7 @@ var parseTimes = function(){
     }
 
 
-    // Add hours from tap 2
+    // Add times from tap 2
     for (var each2 in starttimeArray2){
         hour2 = new Date(starttimeArray2[each2]).getHours();
 
@@ -313,7 +347,7 @@ function drawChart() {
     // Create the data table.
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Times');
-    data.addColumn('number', 'Beers Per Hour');
+    data.addColumn('number', 'Drinks per Hour');
     var date;
 
 
@@ -365,15 +399,15 @@ function drawChart() {
 function drawPieChart() {
 
     var data = google.visualization.arrayToDataTable([
-        ['Name', 'Number of Beers'],
-        [beer_name_text1, tap1Num],
-        [beer_name_text2, tap2Num]
+        ['Name', 'Number of Drinks'],
+        [tap1_name_text, tap1Num],
+        [tap2_name_text, tap2Num]
     ]);
 
     var options = {
         slices: {
-            0: { color: 'lightgrey' },
-            1: { color: 'red' }
+            0: { color: 'red' },
+            1: { color: 'lightgrey' }
         },
         is3D: true,
         pieSliceTextStyle: {
