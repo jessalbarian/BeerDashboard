@@ -17,7 +17,6 @@ var total_hours2 = document.getElementById('total_hours2');
 var total_minutes2 = document.getElementById('total_minutes2');
 var total_seconds2 = document.getElementById('total_seconds2');
 var topbeer = document.getElementById('topbeer');
-var topbeer2 = document.getElementById('topbeer2');
 var ounces2 = document.getElementById('ounces2');
 var bread = document.getElementById('bread');
 
@@ -95,6 +94,7 @@ refTap1.on("value", function (snapshot) {
     otherstarttimes1 = [];
     otherstoptimes1 = [];
     gethours = [];
+    gethours2 = [];
     year = 0;
     hoursCounter = [];
     hoursCounter2 = [];
@@ -103,6 +103,9 @@ refTap1.on("value", function (snapshot) {
     getyears = [];
     getmonths = [];
     getdays = [];
+    getyears2 = [];
+    getmonths2 = [];
+    getdays2 = [];
     var taps = snapshot.val();
     for (var key in taps) {
         if (key == 'name') {
@@ -172,6 +175,7 @@ refTap2.on("value", function (snapshot) {
     otherstarttimes2 = [];
     otherstoptimes2 = [];
     gethours = [];
+    gethours2 = [];
     hoursCounter = [];
     hoursCounter2 = [];
     daysCounter = [];
@@ -179,6 +183,9 @@ refTap2.on("value", function (snapshot) {
     getyears = [];
     getmonths = [];
     getdays = [];
+    getyears2 = [];
+    getmonths2 = [];
+    getdays2 = [];
     var taps2 = snapshot.val();
     for (var keys in taps2) {
         if (keys == 'name') {
