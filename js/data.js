@@ -419,9 +419,9 @@ function drawChart() {
         var num = 0;
 
         if (key >= 12) {
-            date = key + ':00 PM';
+            date = key + ':00';
         } else {
-            date = key + ':00 AM';
+            date = key + ':00';
         }
 
         num = hoursCounter[key];
@@ -478,9 +478,9 @@ function drawChart2() {
         var num = 0;
 
         if (key >= 12) {
-            date = key + ':00 PM';
+            date = key + ':00';
         } else {
-            date = key + ':00 AM';
+            date = key + ':00';
         }
 
         num = hoursCounter2[key];
