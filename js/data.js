@@ -274,11 +274,8 @@ var topBeer = function() {
 // How much is left in the keg
 //----------------------------
 var amount = function(){
-
-
-    var today = Date();
-    console.log(today);
-
+    //128oz in 1 gallon
+    //TODO: get date keg was inserted and get number of beers poured after that date
 }
 
 
